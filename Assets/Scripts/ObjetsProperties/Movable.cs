@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ObjetsProperties
 {
@@ -17,12 +16,12 @@ namespace ObjetsProperties
         public Vector2 Direction
         {
             get => direction;
-            set => direction = value;
+            set => direction = value.normalized;
         }
 
         private void FixedUpdate()
         {
-            transform.Translate(direction * Time.deltaTime);
+            transform.Translate(direction * (Time.deltaTime * speed));
         }
     }
 }
