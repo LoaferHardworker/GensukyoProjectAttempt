@@ -30,7 +30,6 @@ namespace Management
         void SetDirectionOfMovement(InputAction.CallbackContext ctx)
         {
             _movable.Direction = ctx.ReadValue<Vector2>();
-            Debug.Log(ctx.ReadValue<Vector2>());
         }
     }
 }
