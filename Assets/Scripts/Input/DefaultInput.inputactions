@@ -1,5 +1,5 @@
 {
-    "name": "Default",
+    "name": "DefaultInput",
     "maps": [
         {
             "name": "OnFoot",
@@ -9,6 +9,24 @@
                     "name": "MovementDirection",
                     "type": "Value",
                     "id": "30f34f37-8fc6-4716-b8b8-8d6812db6aed",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Attack",
+                    "type": "Value",
+                    "id": "71879318-6589-41df-9767-f6e88b8cfba0",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "818c9ede-e6c1-4c09-b734-2f22d2f522ea",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -70,6 +88,50 @@
                     "action": "MovementDirection",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "Mouse",
+                    "id": "ea0f013e-e19e-47a6-a878-e0ef3ec2316d",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "d02a0b77-98d6-4637-ba74-3168b6227361",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "f031c7ed-f134-4096-9bd7-720db8bfd0cf",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "932fc4f2-80b1-4e43-8ea3-743566fcad35",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
