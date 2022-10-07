@@ -60,8 +60,6 @@ namespace ObjetsProperties
 				yield return new WaitForSeconds(energyRecoverySpeed);
 				if (energy == maxEnergy) continue;
 				Energy = Math.Min(energy + 1, maxEnergy);
-
-				Debug.Log($"energy: {energy}");
 			}
 		}
 	}
