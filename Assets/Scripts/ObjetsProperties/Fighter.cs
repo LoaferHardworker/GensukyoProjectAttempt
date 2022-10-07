@@ -1,35 +1,68 @@
 using System;
-using System.Collections.Generic;
-using System.Data;
+using System.Collections;
 using GameObjects.Weapon;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ObjetsProperties
 {
 	public class Fighter : MonoBehaviour
 	{
-		[SerializeField] private List<Weapon> weapons;
+		[SerializeField] private Weapon weapon;
 		[SerializeField] private int energy;
+		[SerializeField] private int maxEnergy;
+		[SerializeField] private float energyRecoverySpeed = 1;
 
-		private Weapon _actualWeapon;
-		
-		public List<Weapon> Weapons => weapons;
-
-		private void Start() => Chose(0);
-
-		public void Chose(int id)
+		public int Energy
 		{
-			if (weapons.Count == 0)
-				throw new DataException("You have no weapon to chose");
-
-			if (id < 0 || id >= weapons.Count)
-				throw new IndexOutOfRangeException("Incorrect weapon id");
-			
-			_actualWeapon = weapons[0];
+			get => energy;
+			set
+			{
+				energy = value;
+				energyIsChanged.Invoke();
+			}
 		}
 
-		public void Fire(Vector2 point) => _actualWeapon.Fire(point);
+		public int MaxEnergy => maxEnergy;
+
+		public Weapon Weapon
+		{
+			set => weapon = value;
+		}
 		
-		public void LookAt(Vector2 point) => _actualWeapon.LookAt(point);
+		public UnityEvent energyIsChanged = new UnityEvent();
+
+		private void Start()
+		{
+			StartCoroutine(IncreaseEnergy());
+		}
+
+		public bool Fire(Vector2 point)
+		{
+			var cost = weapon.Cost;
+			if (cost > energy)
+			{
+				Debug.Log($"{energy} energy is not enough: you need {cost}");
+				return false;
+			}
+
+			Energy -= cost;
+			weapon.Fire(point);
+			return true;
+		}
+
+		public void LookAt(Vector2 point) => weapon.LookAt(point);
+
+		private IEnumerator IncreaseEnergy()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(energyRecoverySpeed);
+				if (energy == maxEnergy) continue;
+				Energy = Math.Min(energy + 1, maxEnergy);
+
+				Debug.Log($"energy: {energy}");
+			}
+		}
 	}
 }

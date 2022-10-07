@@ -30,15 +30,17 @@ namespace Management
             _input.OnFoot.Attack.started += Fire;
         }
 
-        private void FixedUpdate() => _fighter.LookAt(_aimPoint);
+        private void OnDisable() => _input.Disable();
+
+        private void FixedUpdate() => _fighter.LookAt(Camera.main.ScreenToWorldPoint(_aimPoint));
 
         private void SetDirectionOfMovement(InputAction.CallbackContext ctx)
             => _movable.Direction = ctx.ReadValue<Vector2>();
 
         private void Aim(InputAction.CallbackContext ctx)
-            => _aimPoint = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
+            => _aimPoint = ctx.ReadValue<Vector2>();
 
         private void Fire(InputAction.CallbackContext ctx)
-            => _fighter.Fire(Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>()));
+            => _fighter.Fire(Camera.main.ScreenToWorldPoint(_aimPoint));
     }
 }

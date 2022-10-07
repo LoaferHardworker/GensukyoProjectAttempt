@@ -37,15 +37,6 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attack"",
-                    ""type"": ""Value"",
-                    ""id"": ""71879318-6589-41df-9767-f6e88b8cfba0"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Aim"",
                     ""type"": ""Value"",
                     ""id"": ""818c9ede-e6c1-4c09-b734-2f22d2f522ea"",
@@ -53,6 +44,15 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""02721d9c-a030-4dc0-8ca0-b7aeb940effa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,39 +112,6 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Mouse"",
-                    ""id"": ""ea0f013e-e19e-47a6-a878-e0ef3ec2316d"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""d02a0b77-98d6-4637-ba74-3168b6227361"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""f031c7ed-f134-4096-9bd7-720db8bfd0cf"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""932fc4f2-80b1-4e43-8ea3-743566fcad35"",
                     ""path"": ""<Mouse>/position"",
@@ -152,6 +119,17 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d1ee2ba-3c72-497a-8023-ec0252c5be79"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -163,8 +141,8 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
         // OnFoot
         m_OnFoot = asset.FindActionMap("OnFoot", throwIfNotFound: true);
         m_OnFoot_MovementDirection = m_OnFoot.FindAction("MovementDirection", throwIfNotFound: true);
-        m_OnFoot_Attack = m_OnFoot.FindAction("Attack", throwIfNotFound: true);
         m_OnFoot_Aim = m_OnFoot.FindAction("Aim", throwIfNotFound: true);
+        m_OnFoot_Attack = m_OnFoot.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -225,15 +203,15 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_OnFoot;
     private IOnFootActions m_OnFootActionsCallbackInterface;
     private readonly InputAction m_OnFoot_MovementDirection;
-    private readonly InputAction m_OnFoot_Attack;
     private readonly InputAction m_OnFoot_Aim;
+    private readonly InputAction m_OnFoot_Attack;
     public struct OnFootActions
     {
         private @DefaultInput m_Wrapper;
         public OnFootActions(@DefaultInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @MovementDirection => m_Wrapper.m_OnFoot_MovementDirection;
-        public InputAction @Attack => m_Wrapper.m_OnFoot_Attack;
         public InputAction @Aim => m_Wrapper.m_OnFoot_Aim;
+        public InputAction @Attack => m_Wrapper.m_OnFoot_Attack;
         public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -246,12 +224,12 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
                 @MovementDirection.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMovementDirection;
                 @MovementDirection.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMovementDirection;
                 @MovementDirection.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMovementDirection;
-                @Attack.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAttack;
                 @Aim.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAim;
+                @Attack.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_OnFootActionsCallbackInterface = instance;
             if (instance != null)
@@ -259,12 +237,12 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
                 @MovementDirection.started += instance.OnMovementDirection;
                 @MovementDirection.performed += instance.OnMovementDirection;
                 @MovementDirection.canceled += instance.OnMovementDirection;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -272,7 +250,7 @@ public partial class @DefaultInput : IInputActionCollection2, IDisposable
     public interface IOnFootActions
     {
         void OnMovementDirection(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }
