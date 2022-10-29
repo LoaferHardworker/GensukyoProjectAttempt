@@ -16,7 +16,7 @@ namespace ObjetsProperties
 		public int Energy
 		{
 			get => energy;
-			set
+			private set
 			{
 				energy = value;
 				energyIsChanged.Invoke();
