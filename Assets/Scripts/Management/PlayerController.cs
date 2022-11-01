@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using ObjetsProperties;
 using UnityEngine.InputSystem;
@@ -14,6 +15,7 @@ namespace Management
 
         private Vector2 _aimPoint;
         private Vector2 _direction;
+        private Coroutine _fire;
 
         private void Awake()
         {
@@ -40,7 +42,8 @@ namespace Management
             _input.OnFoot.MovementDirection.canceled += SetDirectionOfMovement;
 
             _input.OnFoot.Aim.performed += Aim;
-            _input.OnFoot.Attack.started += Fire;
+            _input.OnFoot.Attack.started += BeginFire;
+            _input.OnFoot.Attack.canceled += StopFire;
         }
 
         private void OnDisable() => _input.Disable();
@@ -51,7 +54,17 @@ namespace Management
         private void Aim(InputAction.CallbackContext ctx)
             => _aimPoint = ctx.ReadValue<Vector2>();
 
-        private void Fire(InputAction.CallbackContext ctx)
-            => _fighter.Fire(Camera.main.ScreenToWorldPoint(_aimPoint));
+        private IEnumerator Fire()
+        {
+            while (true)
+            {
+                _fighter.Fire(Camera.main.ScreenToWorldPoint(_aimPoint));
+                yield return new WaitForSeconds(_fighter.Weapon.Delay);
+            }
+        }
+        
+        private void BeginFire(InputAction.CallbackContext obj) => _fire = StartCoroutine(Fire());
+
+        private void StopFire(InputAction.CallbackContext ctx) => StopCoroutine(_fire);
     }
 }

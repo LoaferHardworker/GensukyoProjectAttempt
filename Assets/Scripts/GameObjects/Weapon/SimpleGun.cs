@@ -11,14 +11,14 @@ namespace GameObjects.Weapon
 		private void Start()
 		{
 			spawnPoint = spawnPoint != null ? spawnPoint : transform;
+
+			if (bulletPrefab == null)
+				throw new NullReferenceException("Bullet prefab is null!");
 		}
 
 		public override void Fire(Vector2 target)
 		{
 			LookAt(target);
-
-			if (bulletPrefab == null)
-				throw new NullReferenceException("Bullet prefab is null!");
 
 			var spawnedBullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
 			spawnedBullet.tag = tag;

@@ -11,7 +11,7 @@ namespace ObjetsProperties
 		[SerializeField] private Weapon weapon;
 		[SerializeField] private int energy;
 		[SerializeField] private int maxEnergy;
-		[SerializeField] private float energyRecoverySpeed = 1;
+		[SerializeField] private float energyRecoveryDelay = 1;
 
 		public int Energy
 		{
@@ -25,26 +25,16 @@ namespace ObjetsProperties
 
 		public int MaxEnergy => maxEnergy;
 
-		public Weapon Weapon
-		{
-			set => weapon = value;
-		}
+		public Weapon Weapon => weapon;
 		
 		public UnityEvent energyIsChanged = new UnityEvent();
 
-		private void Start()
-		{
-			StartCoroutine(IncreaseEnergy());
-		}
+		private void Start() => StartCoroutine(IncreaseEnergy());
 
 		public bool Fire(Vector2 point)
 		{
 			var cost = weapon.Cost;
-			if (cost > energy)
-			{
-				Debug.Log($"{energy} energy is not enough: you need {cost}");
-				return false;
-			}
+			if (cost > energy) return false;
 
 			Energy -= cost;
 			weapon.Fire(point);
@@ -57,7 +47,7 @@ namespace ObjetsProperties
 		{
 			while (true)
 			{
-				yield return new WaitForSeconds(energyRecoverySpeed);
+				yield return new WaitForSeconds(energyRecoveryDelay);
 				if (energy == maxEnergy) continue;
 				Energy = Math.Min(energy + 1, maxEnergy);
 			}

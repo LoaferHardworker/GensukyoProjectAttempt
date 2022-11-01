@@ -303,7 +303,7 @@ MonoBehaviour:
   weapon: {fileID: 1087667691}
   energy: 10
   maxEnergy: 10
-  energyRecoverySpeed: 1
+  energyRecoveryDelay: 1
   energyIsChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -456,6 +457,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3c2b3cb29db059d97fa158c2554ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 371389545}
+  smooth: 3
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -730,10 +745,10 @@ RectTransform:
   m_Father: {fileID: 547067709}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 11.55011, y: 164.91}
-  m_SizeDelta: {x: 244.95, y: 15.18}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 11.55011, y: -58.089996}
+  m_SizeDelta: {x: 244.95, y: 15.179993}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &939621438
 MonoBehaviour:
@@ -973,10 +988,10 @@ RectTransform:
   m_Father: {fileID: 547067709}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 11.55011, y: 195.12495}
-  m_SizeDelta: {x: 244.95001, y: 21.95}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 11.55011, y: -27.875046}
+  m_SizeDelta: {x: 244.95001, y: 21.949997}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1727685926
 MonoBehaviour:
