@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using ObjetsProperties;
 using UnityEngine;
@@ -8,20 +7,27 @@ namespace AI
 {
 	public class OneWeaponRayCastVisionAi : MonoBehaviour
 	{
-		[SerializeField][Range(0f, 35f)] private float speed = 5f;
+		[SerializeField] [Range(0f, 35f)] private float speed = 5f;
+		
+		[Header("AI movement properties")]
 		[SerializeField] private Vector2 movementUpdateDelayRange = new Vector2(0.02f, 0.4f);
-		[SerializeField][Range(0f, 35f)] private float companionDistance = 5f;
-		[SerializeField][Range(0f, 35f)] private float companionValue = 5f;
-		[SerializeField][Range(0f, 35f)] private float enemyDistance = 5f;
-		[SerializeField][Range(0f, 35f)] private float enemyValue = 7f;
-		[SerializeField][Range(0f, 35f)] private float wallDistance = 7f;
-		[SerializeField][Range(0f, 35f)] private float wallValue = 2f;
+		[SerializeField] [Range(0f, 35f)] private float companionDistance = 5f;
+		[SerializeField] [Range(0f, 35f)] private float companionValue = 5f;
+		[SerializeField] [Range(0f, 35f)] private float enemyDistance = 5f;
+		[SerializeField] [Range(0f, 35f)] private float enemyValue = 7f;
+		[SerializeField] [Range(0f, 35f)] private float wallDistance = 7f;
+		[SerializeField] [Range(0f, 35f)] private float wallValue = 2f;
+
+		[Header("AI attack properties")]
+		[SerializeField] [Range(0f, 3f)] private float updateAimRate;
+		[SerializeField] [Range(1f, 5f)] [Tooltip("Factor for delay of weapon")] private float maxAttackDelay = 1f; 
 		
 		private RaycastVision _vision;
 		private Rigidbody2D _rb;
 		private Fighter _fighter;
 
 		private Vector2 _velocity;
+		private Transform _target;
 
 		private void Start()
 		{
@@ -29,20 +35,25 @@ namespace AI
 			_rb = GetComponent<Rigidbody2D>();
 			_fighter = GetComponent<Fighter>();
 
-			StartCoroutine(Movement());
+			StartCoroutine(Move());
+			StartCoroutine(Aim());
+			StartCoroutine(Fire());
+		}
+
+		private void Update()
+		{
+			if (_target) _fighter.LookAt(_target.position);
 		}
 
 		private void FixedUpdate()
 		{
-			print(_velocity);
 			_rb.velocity = _velocity.normalized * speed;
 		}
 
-		private IEnumerator Movement()
+		private IEnumerator Move()
 		{
 			while (true)
 			{
-				var t = Time.time;
 				var hits = _vision.LookAround();
 				_velocity = Vector2.zero;
 
@@ -68,6 +79,41 @@ namespace AI
 				}
 				
 				yield return new WaitForSeconds(Random.Range(movementUpdateDelayRange.x, movementUpdateDelayRange.y));
+			}
+		}
+
+		private IEnumerator Aim()
+		{
+			while (true)
+			{
+				var distanceToTarget = float.PositiveInfinity;
+				_target = null;
+				
+				foreach (var hit in _vision.LookAround())
+				{
+					if (!hit.collider) continue;
+					
+					if (hit.collider.GetComponent<Fighter>()
+						&&hit.collider.GetComponent<Mortal>()
+					    && hit.collider.CompareTag(tag) == false
+					    && hit.distance < distanceToTarget)
+					{
+						_target = hit.collider.transform;
+						distanceToTarget = hit.distance;
+					}
+				}
+				
+				yield return new WaitForSeconds(updateAimRate);
+			}
+		}
+
+		private IEnumerator Fire()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(_fighter.Weapon.Delay * Random.Range(1, maxAttackDelay));
+				yield return new WaitUntil(() => _target);
+				_fighter.Fire(_target.position);
 			}
 		}
 

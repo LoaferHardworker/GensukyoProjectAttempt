@@ -28,12 +28,14 @@ namespace AI
 				var direction = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 				_raysDirections[i] = direction;
 
+				var position = (Vector2)transform.position;
+				
 				var hits = Physics2D.RaycastAll(
-					(Vector2)transform.position + direction * raysDistance,
+					position + direction * raysDistance,
 					-direction,
 					raysDistance);
 
-				_startPositions[i] = -(Vector2)transform.position+ hits[hits.Length - 1].point + direction * 0.01f;
+				_startPositions[i] = hits[hits.Length - 1].point + direction * 0.01f - position;
 			}
 		}
 

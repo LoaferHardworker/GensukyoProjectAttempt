@@ -45,9 +45,8 @@ namespace GameObjects.Weapon
 
 		private void Damage(Mortal mortal)
 		{
-			if (mortal.gameObject.CompareTag(gameObject.tag)) return;
-			
-			mortal.Health -= damage;
+			if (mortal.gameObject.CompareTag(gameObject.tag) == false)
+				mortal.Health -= damage;
 			Destroy(gameObject);
 		}
 	}
